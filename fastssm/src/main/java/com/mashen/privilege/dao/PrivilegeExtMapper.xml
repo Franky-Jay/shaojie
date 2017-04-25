@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mashen.privilege.dao.PrivilegeExtMapper" >
+  
+  <resultMap id="PermissionResultMap" type="com.mashen.permission.domain.PermissionVOExt" >
+    <id column="permission_id" property="permissionId" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="uri" property="uri" jdbcType="VARCHAR" />
+    <result column="classpath" property="classpath" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="orders" property="orders" jdbcType="BIGINT" />
+    <result column="islist" property="islist" jdbcType="INTEGER" />
+    <result column="business_code" property="businessCode" jdbcType="VARCHAR" />
+    <result column="lastmodifytime" property="lastmodifytime" jdbcType="TIMESTAMP" />
+    <result column="creator_department_id" property="creatorDepartmentId" jdbcType="VARCHAR" />
+    <result column="creator_user_id" property="creatorUserId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <select id="listRoleByUserId" resultType="string" parameterType="string">
+  	select a.role_id from uc_role a,uc_user_role b where a.role_id=b.role_id and b.user_id=#{userid}
+  </select>
+  
+  <select id="listMenuPermissionByRoleId" resultMap="PermissionResultMap" parameterType="string">
+  	select a.* from uc_permission a,uc_role_permission b where a.permission_id=b.permission_id and b.role_id=#{roleid} order by a.orders
+  </select>
+  
+   <select id="listButtonPermissionByRoleId" resultMap="PermissionResultMap" parameterType="string">
+  	select a.* from uc_permission a,uc_role_permission b where a.permission_id=b.permission_id and a.type=2 and b.role_id=#{roleid} order by a.orders
+  </select>
+  
+  
+</mapper>

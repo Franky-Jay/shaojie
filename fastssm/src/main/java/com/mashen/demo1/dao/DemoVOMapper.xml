@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mashen.demo1.dao.DemoVOMapper" >
+  <resultMap id="BaseResultMap" type="com.mashen.demo1.domain.DemoVO" >
+    <id column="testid" property="testid" jdbcType="INTEGER" />
+    <result column="testname" property="testname" jdbcType="VARCHAR" />
+    <result column="testsex" property="testsex" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="lastmodifytime" property="lastmodifytime" jdbcType="TIMESTAMP" />
+    <result column="creator_department_id" property="creatorDepartmentId" jdbcType="VARCHAR" />
+    <result column="creator_user_id" property="creatorUserId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    testid, testname, testsex, ctime, lastmodifytime, creator_department_id, creator_user_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mashen.demo1.domain.DemoVOExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from test_demo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from test_demo
+    where testid = #{testid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from test_demo
+    where testid = #{testid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mashen.demo1.domain.DemoVOExample" >
+    delete from test_demo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mashen.demo1.domain.DemoVO" useGeneratedKeys="true" keyProperty="id" >
+    insert into test_demo (testid, testname, testsex, 
+      ctime, lastmodifytime, creator_department_id, 
+      creator_user_id)
+    values (#{testid,jdbcType=INTEGER}, #{testname,jdbcType=VARCHAR}, #{testsex,jdbcType=VARCHAR}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{lastmodifytime,jdbcType=TIMESTAMP}, #{creatorDepartmentId,jdbcType=VARCHAR}, 
+      #{creatorUserId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mashen.demo1.domain.DemoVO" useGeneratedKeys="true" keyProperty="id" >
+    insert into test_demo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="testid != null" >
+        testid,
+      </if>
+      <if test="testname != null" >
+        testname,
+      </if>
+      <if test="testsex != null" >
+        testsex,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="lastmodifytime != null" >
+        lastmodifytime,
+      </if>
+      <if test="creatorDepartmentId != null" >
+        creator_department_id,
+      </if>
+      <if test="creatorUserId != null" >
+        creator_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="testid != null" >
+        #{testid,jdbcType=INTEGER},
+      </if>
+      <if test="testname != null" >
+        #{testname,jdbcType=VARCHAR},
+      </if>
+      <if test="testsex != null" >
+        #{testsex,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastmodifytime != null" >
+        #{lastmodifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorDepartmentId != null" >
+        #{creatorDepartmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorUserId != null" >
+        #{creatorUserId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mashen.demo1.domain.DemoVOExample" resultType="java.lang.Integer" >
+    select count(*) from test_demo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update test_demo
+    <set >
+      <if test="record.testid != null" >
+        testid = #{record.testid,jdbcType=INTEGER},
+      </if>
+      <if test="record.testname != null" >
+        testname = #{record.testname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testsex != null" >
+        testsex = #{record.testsex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastmodifytime != null" >
+        lastmodifytime = #{record.lastmodifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creatorDepartmentId != null" >
+        creator_department_id = #{record.creatorDepartmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatorUserId != null" >
+        creator_user_id = #{record.creatorUserId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update test_demo
+    set testid = #{record.testid,jdbcType=INTEGER},
+      testname = #{record.testname,jdbcType=VARCHAR},
+      testsex = #{record.testsex,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      lastmodifytime = #{record.lastmodifytime,jdbcType=TIMESTAMP},
+      creator_department_id = #{record.creatorDepartmentId,jdbcType=VARCHAR},
+      creator_user_id = #{record.creatorUserId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mashen.demo1.domain.DemoVO" >
+    update test_demo
+    <set >
+      <if test="testname != null" >
+        testname = #{testname,jdbcType=VARCHAR},
+      </if>
+      <if test="testsex != null" >
+        testsex = #{testsex,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastmodifytime != null" >
+        lastmodifytime = #{lastmodifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorDepartmentId != null" >
+        creator_department_id = #{creatorDepartmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorUserId != null" >
+        creator_user_id = #{creatorUserId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where testid = #{testid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mashen.demo1.domain.DemoVO" >
+    update test_demo
+    set testname = #{testname,jdbcType=VARCHAR},
+      testsex = #{testsex,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      lastmodifytime = #{lastmodifytime,jdbcType=TIMESTAMP},
+      creator_department_id = #{creatorDepartmentId,jdbcType=VARCHAR},
+      creator_user_id = #{creatorUserId,jdbcType=VARCHAR}
+    where testid = #{testid,jdbcType=INTEGER}
+  </update>
+</mapper>

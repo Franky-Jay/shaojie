@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mashen.user.dao.UserVOMapper" >
+  <resultMap id="BaseResultMap" type="com.mashen.user.domain.UserVO" >
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="TINYINT" />
+    <result column="department_id" property="departmentId" jdbcType="CHAR" />
+    <result column="locked" property="locked" jdbcType="TINYINT" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="lastmodifytime" property="lastmodifytime" jdbcType="TIMESTAMP" />
+    <result column="creator_department_id" property="creatorDepartmentId" jdbcType="VARCHAR" />
+    <result column="creator_user_id" property="creatorUserId" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    user_id, account, password, salt, name, avatar, phone, email, sex, department_id, 
+    locked, ctime, lastmodifytime, creator_department_id, creator_user_id, org_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mashen.user.domain.UserVOExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from uc_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from uc_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from uc_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mashen.user.domain.UserVOExample" >
+    delete from uc_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mashen.user.domain.UserVO" useGeneratedKeys="true" keyProperty="id" >
+    insert into uc_user (user_id, account, password, 
+      salt, name, avatar, 
+      phone, email, sex, 
+      department_id, locked, ctime, 
+      lastmodifytime, creator_department_id, 
+      creator_user_id, org_name)
+    values (#{userId,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{salt,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, 
+      #{departmentId,jdbcType=CHAR}, #{locked,jdbcType=TINYINT}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{lastmodifytime,jdbcType=TIMESTAMP}, #{creatorDepartmentId,jdbcType=VARCHAR}, 
+      #{creatorUserId,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mashen.user.domain.UserVO" useGeneratedKeys="true" keyProperty="id" >
+    insert into uc_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="avatar != null" >
+        avatar,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="departmentId != null" >
+        department_id,
+      </if>
+      <if test="locked != null" >
+        locked,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="lastmodifytime != null" >
+        lastmodifytime,
+      </if>
+      <if test="creatorDepartmentId != null" >
+        creator_department_id,
+      </if>
+      <if test="creatorUserId != null" >
+        creator_user_id,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="departmentId != null" >
+        #{departmentId,jdbcType=CHAR},
+      </if>
+      <if test="locked != null" >
+        #{locked,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastmodifytime != null" >
+        #{lastmodifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorDepartmentId != null" >
+        #{creatorDepartmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorUserId != null" >
+        #{creatorUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mashen.user.domain.UserVOExample" resultType="java.lang.Integer" >
+    select count(*) from uc_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update uc_user
+    <set >
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.account != null" >
+        account = #{record.account,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salt != null" >
+        salt = #{record.salt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.avatar != null" >
+        avatar = #{record.avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null" >
+        sex = #{record.sex,jdbcType=TINYINT},
+      </if>
+      <if test="record.departmentId != null" >
+        department_id = #{record.departmentId,jdbcType=CHAR},
+      </if>
+      <if test="record.locked != null" >
+        locked = #{record.locked,jdbcType=TINYINT},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastmodifytime != null" >
+        lastmodifytime = #{record.lastmodifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creatorDepartmentId != null" >
+        creator_department_id = #{record.creatorDepartmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatorUserId != null" >
+        creator_user_id = #{record.creatorUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgName != null" >
+        org_name = #{record.orgName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update uc_user
+    set user_id = #{record.userId,jdbcType=VARCHAR},
+      account = #{record.account,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      salt = #{record.salt,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      avatar = #{record.avatar,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=TINYINT},
+      department_id = #{record.departmentId,jdbcType=CHAR},
+      locked = #{record.locked,jdbcType=TINYINT},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      lastmodifytime = #{record.lastmodifytime,jdbcType=TIMESTAMP},
+      creator_department_id = #{record.creatorDepartmentId,jdbcType=VARCHAR},
+      creator_user_id = #{record.creatorUserId,jdbcType=VARCHAR},
+      org_name = #{record.orgName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mashen.user.domain.UserVO" >
+    update uc_user
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="departmentId != null" >
+        department_id = #{departmentId,jdbcType=CHAR},
+      </if>
+      <if test="locked != null" >
+        locked = #{locked,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastmodifytime != null" >
+        lastmodifytime = #{lastmodifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorDepartmentId != null" >
+        creator_department_id = #{creatorDepartmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorUserId != null" >
+        creator_user_id = #{creatorUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mashen.user.domain.UserVO" >
+    update uc_user
+    set account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=TINYINT},
+      department_id = #{departmentId,jdbcType=CHAR},
+      locked = #{locked,jdbcType=TINYINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      lastmodifytime = #{lastmodifytime,jdbcType=TIMESTAMP},
+      creator_department_id = #{creatorDepartmentId,jdbcType=VARCHAR},
+      creator_user_id = #{creatorUserId,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+</mapper>

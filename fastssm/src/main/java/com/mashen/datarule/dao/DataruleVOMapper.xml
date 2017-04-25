@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mashen.datarule.dao.DataruleVOMapper" >
+  <resultMap id="BaseResultMap" type="com.mashen.datarule.domain.DataruleVO" >
+    <id column="ruleid" property="ruleid" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="permission_id" property="permissionId" jdbcType="VARCHAR" />
+    <result column="business_code" property="businessCode" jdbcType="VARCHAR" />
+    <result column="rule" property="rule" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="lastmodifytime" property="lastmodifytime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ruleid, role_id, permission_id, business_code, rule, ctime, lastmodifytime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mashen.datarule.domain.DataruleVOExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from uc_datarule
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from uc_datarule
+    where ruleid = #{ruleid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from uc_datarule
+    where ruleid = #{ruleid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mashen.datarule.domain.DataruleVOExample" >
+    delete from uc_datarule
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mashen.datarule.domain.DataruleVO" useGeneratedKeys="true" keyProperty="id" >
+    insert into uc_datarule (ruleid, role_id, permission_id, 
+      business_code, rule, ctime, 
+      lastmodifytime)
+    values (#{ruleid,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{permissionId,jdbcType=VARCHAR}, 
+      #{businessCode,jdbcType=VARCHAR}, #{rule,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{lastmodifytime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mashen.datarule.domain.DataruleVO" useGeneratedKeys="true" keyProperty="id" >
+    insert into uc_datarule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ruleid != null" >
+        ruleid,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="permissionId != null" >
+        permission_id,
+      </if>
+      <if test="businessCode != null" >
+        business_code,
+      </if>
+      <if test="rule != null" >
+        rule,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="lastmodifytime != null" >
+        lastmodifytime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ruleid != null" >
+        #{ruleid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionId != null" >
+        #{permissionId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCode != null" >
+        #{businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rule != null" >
+        #{rule,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastmodifytime != null" >
+        #{lastmodifytime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mashen.datarule.domain.DataruleVOExample" resultType="java.lang.Integer" >
+    select count(*) from uc_datarule
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update uc_datarule
+    <set >
+      <if test="record.ruleid != null" >
+        ruleid = #{record.ruleid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleId != null" >
+        role_id = #{record.roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.permissionId != null" >
+        permission_id = #{record.permissionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessCode != null" >
+        business_code = #{record.businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rule != null" >
+        rule = #{record.rule,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastmodifytime != null" >
+        lastmodifytime = #{record.lastmodifytime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update uc_datarule
+    set ruleid = #{record.ruleid,jdbcType=VARCHAR},
+      role_id = #{record.roleId,jdbcType=VARCHAR},
+      permission_id = #{record.permissionId,jdbcType=VARCHAR},
+      business_code = #{record.businessCode,jdbcType=VARCHAR},
+      rule = #{record.rule,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      lastmodifytime = #{record.lastmodifytime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mashen.datarule.domain.DataruleVO" >
+    update uc_datarule
+    <set >
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionId != null" >
+        permission_id = #{permissionId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCode != null" >
+        business_code = #{businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rule != null" >
+        rule = #{rule,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastmodifytime != null" >
+        lastmodifytime = #{lastmodifytime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ruleid = #{ruleid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mashen.datarule.domain.DataruleVO" >
+    update uc_datarule
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      permission_id = #{permissionId,jdbcType=VARCHAR},
+      business_code = #{businessCode,jdbcType=VARCHAR},
+      rule = #{rule,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      lastmodifytime = #{lastmodifytime,jdbcType=TIMESTAMP}
+    where ruleid = #{ruleid,jdbcType=VARCHAR}
+  </update>
+</mapper>
